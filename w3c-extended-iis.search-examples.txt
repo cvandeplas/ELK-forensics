@@ -1,0 +1,65 @@
+# How many usernames per client IP ? 
+# for FAILED authentications
+# keep TOP 50 results
+curl -XPOST "http://192.168.43.134:9200/logstash-w3c_extended_iis*/w3c_extended_iis/_search?pretty=true" -d'
+{
+  "size": 0, 
+  "query": {
+    "filtered": { 
+      "filter": {
+        "bool": {
+          "must": [ { 
+            "terms": { "sc_status": ["401"]}
+            } ],
+          "must_not": [ { 
+            "terms": { "sc_status": ["200", "304", "302", "500"] } 
+            } ]
+        }
+      }      
+    }
+  },
+  "aggs": {
+      "client_ip": {
+        "terms": {
+          "field": "c_ip.raw",
+          "size": 50,
+          "order": { "usernames": "desc" }
+        },
+        "aggs" : {
+          "usernames" : { "cardinality": { "field": "cs_username.raw" } }
+        }
+      }
+   }
+}' | fgrep -e key -e value 
+
+
+# FIXME not perfect thing, might give incorrect results, needs to be verified
+curl -XPOST "http://192.168.43.134:9200/logstash-w3c_extended_iis*/w3c_extended_iis/_search?pretty=true" -d'
+{
+  "size": 0, 
+  "query": {
+    "filtered": { 
+      "filter": {
+        "bool": {
+          "must": [ { 
+            "terms": { "sc_status": ["401"]}
+            } ],
+          "must_not": [ { 
+            "terms": { "sc_status": ["200", "304", "302", "500"] } 
+            } ]
+        }
+      }      
+    }
+  },
+  "aggs": {
+      "client_ip": {
+        "terms": {
+          "field": "c_ip.raw",
+          "size": 5
+        },
+        "aggs" : {
+          "usernames" : { "terms": { "field": "cs_username.raw", "size": 100 } }
+        }
+      }
+   }
+}'
