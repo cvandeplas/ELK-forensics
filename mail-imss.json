@@ -75,7 +75,7 @@
           "value_field": null,
           "auto_int": true,
           "resolution": 100,
-          "interval": "1d",
+          "interval": "12h",
           "fill": 3,
           "linewidth": 3,
           "timezone": "browser",
@@ -177,7 +177,7 @@
           },
           "auto_int": true,
           "resolution": 100,
-          "interval": "1d",
+          "interval": "12h",
           "intervals": [
             "auto",
             "1s",
@@ -403,11 +403,9 @@
           "paging": true,
           "spyable": true,
           "queries": {
-            "mode": "all",
+            "mode": "unpinned",
             "ids": [
-              0,
-              1,
-              2
+              0
             ]
           },
           "field_list": true,
