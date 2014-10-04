@@ -26,6 +26,8 @@ That will create a directory - ELK-forensics - holding the configuration files.
  - Restart the logstash service
  - Feed your logs
 
+Make sure you also look at the documentation provided in the .conf files. 
+
 Do not hesitate to contribute !
 All feedback is appreciated !
 
