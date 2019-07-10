@@ -1,5 +1,6 @@
 ELK-forensics
 =============
+-- Note: This repository is not maintained anymore. --
 
 ELK configuration files for Forensic Analysts and Incident Handlers.
 
